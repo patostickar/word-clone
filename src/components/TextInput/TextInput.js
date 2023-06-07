@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 
-function TextInput({saveWord}) {
+function TextInput({ saveWord }) {
   const [word, setWord] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
-    setWord("");
-    saveWord(word);
+    if (word.length === 5) {
+      setWord("");
+      saveWord(word);
+    }
   };
   return (<>
     <form className="guess-input-wrapper" onSubmit={handleSubmit}>
       <label htmlFor="guess-input">Enter guess:</label>
-      <input id="guess-input" type="text" pattern={"[A-Za-z]{5}"} value={word} onChange={event => setWord(event.target.value.toUpperCase())} />
+      <input id="guess-input" type="text" pattern={"^[a-zA-Z]{5,5}$"} value={word}
+             onChange={event => setWord(event.target.value.toUpperCase())} />
     </form>
   </>);
 }

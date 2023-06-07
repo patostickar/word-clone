@@ -2,8 +2,9 @@ import React, { useState } from "react";
 
 import { sample } from "../../utils";
 import { WORDS } from "../../data";
+import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 import TextInput from "../TextInput";
-import WordList from "../WordList";
+import GuessResults from "../GuessResults";
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -13,13 +14,15 @@ console.info({ answer });
 
 function Game() {
   const [wordList, setWordList] = useState([]);
-  const saveWord = (word) =>
-    setWordList([...wordList, word]);
+  const saveWord = (word) => {
+    if (wordList.length < NUM_OF_GUESSES_ALLOWED)
+      setWordList([...wordList, word]);
+  };
 
 
   return (
     <>
-      <WordList wordList={wordList} />
+      <GuessResults wordList={wordList} />
       <TextInput saveWord={saveWord} />
     </>
   );
