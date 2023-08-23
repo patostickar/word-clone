@@ -7,15 +7,14 @@ import TextInput from "../TextInput";
 import GuessResults from "../GuessResults";
 import Banner from "../Banner";
 
-// Pick a random word on every pageload.
-const answer = sample(WORDS);
-// To make debugging easier, we'll log the solution in the console.
-console.info({ answer });
-
 function Game() {
   const [wordList, setWordList] = useState([]);
   const [gameWon, setGameWon] = useState(false);
   const [gameFinished, setGameFinished] = useState(false);
+  const [answer, setAnswer] = useState(() => sample(WORDS));
+
+  // Pick a random word on every pageload.
+  console.info({ answer });
 
   useEffect(() => {
     checkGuess(wordList.at(-1));
@@ -39,11 +38,22 @@ function Game() {
       setGameFinished(true);
   };
 
+  const restartGame = () => {
+    setGameWon(false);
+    setGameFinished(false);
+    setWordList([]);
+    setAnswer(sample(WORDS));
+  };
+
   return (
     <>
       <GuessResults wordList={wordList} answer={answer} />
       <TextInput saveWord={saveWord} gameFinished={gameFinished} />
-      <Banner gameFinished={gameFinished} gameWon={gameWon} />
+      <Banner
+        gameFinished={gameFinished}
+        gameWon={gameWon}
+        restartGame={restartGame}
+      />
     </>
   );
 }

@@ -1,6 +1,6 @@
 import React from "react";
 
-function Banner({ gameFinished, gameWon }) {
+function Banner({ gameFinished, gameWon, restartGame }) {
   return (
     <>
       {gameFinished ? (
@@ -10,6 +10,7 @@ function Banner({ gameFinished, gameWon }) {
               <strong>Congratulations!</strong> Got it in
               <strong>3 guesses</strong>.
             </p>
+            <button onClick={restartGame}>RESTART</button>
           </div>
         ) : (
           <div className="sad banner">
