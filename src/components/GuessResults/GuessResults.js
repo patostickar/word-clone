@@ -3,26 +3,30 @@ import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 import { checkGuess } from "../../game-helpers";
 
 function GuessResults({ wordList, answer }) {
+  const wordListGuess = wordList.map((word) => checkGuess(word, answer));
 
-  console.log(wordList.at(-1));
-  const checkGuessResult = checkGuess(wordList.at(-1), answer);
+  const emptyGuess = Array(5).fill({ letter: "", status: "" });
 
-  const wordListChars = wordList?.map(word => Array.from(word));
-  const emptyGuess = Array(5).fill("");
-  while (wordListChars.length < NUM_OF_GUESSES_ALLOWED) {
-    wordListChars.push(emptyGuess);
+  while (wordListGuess.length < NUM_OF_GUESSES_ALLOWED) {
+    wordListGuess.push(emptyGuess);
   }
 
   return (
     <div className="guess-results">
-      {wordListChars?.map((row, i1) =>
-        <p className="guess" key={i1.toString()}>
-          {row?.map((letter, i2) =>
-            <span className={`cell ${checkGuessResult?.[i2] ?? ""}`}
-                  key={i1.toString() + i2.toString()}>{letter}
-            </span>)}
-        </p>)}
-    </div>);
+      {wordListGuess.map((wordGuess, wordGuessIndex) => (
+        <p className="guess" key={wordGuessIndex.toString()}>
+          {wordGuess.map((char, charIndex) => (
+            <span
+              className={`cell ${char.status}`}
+              key={wordGuessIndex.toString() + charIndex.toString()}
+            >
+              {char.letter}
+            </span>
+          ))}
+        </p>
+      ))}
+    </div>
+  );
 }
 
 export default GuessResults;

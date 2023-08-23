@@ -22,7 +22,7 @@ function Game() {
 
   return (
     <>
-      <GuessResults wordList={wordList} />
+      <GuessResults wordList={wordList} answer={answer} />
       <TextInput saveWord={saveWord} />
     </>
   );
